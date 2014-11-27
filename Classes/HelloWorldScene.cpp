@@ -27,6 +27,7 @@ bool HelloWorld::init()
         return false;
     }
     
+    //aiueo
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
