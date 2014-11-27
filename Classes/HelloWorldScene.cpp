@@ -27,7 +27,7 @@ bool HelloWorld::init()
         return false;
     }
     
-    //aiueo
+    //aiueo kakikukeko
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
