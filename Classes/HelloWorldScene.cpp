@@ -22,7 +22,7 @@ bool HelloWorld::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Layer::init() )
+    if ( !Layer::init() )           //initはゲームを初期化するときに使う関数。インスタンス＝ゲーム画面。
     {
         return false;
     }
@@ -84,7 +84,27 @@ bool HelloWorld::init()
 
     // add the label as a child to this layer
     this->addChild(label, 1);
-    
+
+    // add "HelloWorld" splash screen"
+    auto sprite = Sprite::create("HelloWorld.png");  //画像の生成
+
+    // position the sprite on the center of the screen
+    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));      //画像の位置
+
+    // add the sprite as a child to this layer
+    //this->addChild(sprite, 0);                      //画像を画面に貼り付け
+
+
+    Size winSize = Director::getInstance()->getWinSize();
+    LabelTTF *retryLabel = LabelTTF::create("Retry2", "Arial", 24.0);
+    retryLabel->setColor(Color3B::WHITE);                                     //③
+    //retryLabel->enableShadow(Color4B::RED,Size(-2,-4),2);
+    MenuItemLabel *retryItem = MenuItemLabel::create(retryLabel, CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+    retryItem->setPosition(Point(0, 0));
+    Menu *menu2 = Menu::create(retryItem, NULL);
+    menu2->setPosition(Point(100, 100));
+    this->addChild(menu2);
+
     return true;
 }
 
