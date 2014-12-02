@@ -31,6 +31,27 @@ bool HelloWorld::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+    //ƒQ[ƒ€”wŒi‚Ì’Ç‰Á
+    auto bg = Sprite::create("images/bg.png");
+         bg->setPosition(Point(640/2, 1136/2));
+         bg->setScale(2.5);
+         bg->setRotation(90);
+         this->addChild(bg);
+
+    //—Ì’n‚Ì’Ç‰Á
+    auto territory = Sprite::create("images/player1_1.png");
+    territory->setPosition(Point(640/4, 1136/3));
+    territory->setScale(1.5);
+    territory->setRotation(90);
+    this->addChild(territory);
+
+    //ƒvƒŒƒCƒ„[‚Ì’Ç‰Á
+    auto player = Sprite::create("images/missile2.png");
+    player->setPosition(territory->getPosition());
+    this->addChild(player);
+    auto move = MoveBy::create(5.0f, Point(1200, 0));
+    player->runAction(move);
+
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
     //    you may modify it.
@@ -63,15 +84,6 @@ bool HelloWorld::init()
 
     // add the label as a child to this layer
     this->addChild(label, 1);
-
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-
-    // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
     
     return true;
 }
