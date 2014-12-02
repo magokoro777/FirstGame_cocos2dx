@@ -20,6 +20,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
         director->setOpenGLView(glview);
     }
 
+    glview->setDesignResolutionSize(640, 1136, ResolutionPolicy::SHOW_ALL);
+
     // turn on display FPS
     director->setDisplayStats(true);
 
@@ -30,7 +32,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto scene = HelloWorld::createScene();
 
     // run
-    director->runWithScene(scene);
+    //directorはゲーム全体を管理する部品
+    director->runWithScene(scene);   //アプリ起動。ゲーム画面スタート。
 
     return true;
 }
