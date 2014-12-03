@@ -15,6 +15,8 @@ public:
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
+
+    void createInitObjects();
     
     Sprite *territory;  //ŠÖ”‚Åg‚¤‚©‚ç’Ç‰Á
 

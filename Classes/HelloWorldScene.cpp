@@ -31,21 +31,7 @@ bool HelloWorld::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    //ƒQ[ƒ€”wŒi‚Ì’Ç‰Á
-    auto bg = Sprite::create("images/bg.png");
-         bg->setPosition(Point(640/2, 1136/2));
-         bg->setScale(2.5);
-         bg->setRotation(90);
-         this->addChild(bg);
-
-    //—Ì’n‚Ì’Ç‰Á
-    territory = Sprite::create("images/player1_1.png");
-    territory->setPosition(Point(640/4, 1136/3));
-    territory->setScale(1.5);
-    territory->setRotation(90);
-    this->addChild(territory);
-
-
+    HelloWorld::createInitObjects();
 
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
@@ -70,24 +56,6 @@ bool HelloWorld::init()
 
     // add a label shows "Hello World"
     // create and initialize a label
-    
-    auto label = LabelTTF::create("Hello World", "Arial", 24);
-    
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(label, 1);
-
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");  //‰æ‘œ‚Ì¶¬
-
-    // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));      //‰æ‘œ‚ÌˆÊ’u
-
-    // add the sprite as a child to this layer
-    //this->addChild(sprite, 0);                      //‰æ‘œ‚ð‰æ–Ê‚É“\‚è•t‚¯
 
     //ƒ{ƒ^ƒ“‚Ì¶¬
     Size winSize = Director::getInstance()->getWinSize();
@@ -105,7 +73,19 @@ bool HelloWorld::init()
 
 void HelloWorld::createInitObjects()
 {
+	//ƒQ[ƒ€”wŒi‚Ì’Ç‰Á
+	    auto bg = Sprite::create("images/bg.png");
+	         bg->setPosition(Point(640/2, 1136/2));
+	         bg->setScale(2.5);
+	         bg->setRotation(90);
+	         this->addChild(bg);
 
+	//—Ì’n‚Ì’Ç‰Á
+	    territory = Sprite::create("images/player1_1.png");
+	    territory->setPosition(Point(640/4, 1136/3));
+	    territory->setScale(1.5);
+	    territory->setRotation(90);
+	    this->addChild(territory);
 }
 
 void HelloWorld::addPlayer(Ref * sender)
