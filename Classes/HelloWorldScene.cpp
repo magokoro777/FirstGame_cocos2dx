@@ -108,6 +108,10 @@ bool HelloWorld::init()
     return true;
 }
 
+void HelloWorld::createInitObjects()
+{
+
+}
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
