@@ -39,18 +39,13 @@ bool HelloWorld::init()
          this->addChild(bg);
 
     //領地の追加
-    auto territory = Sprite::create("images/player1_1.png");
+    territory = Sprite::create("images/player1_1.png");
     territory->setPosition(Point(640/4, 1136/3));
     territory->setScale(1.5);
     territory->setRotation(90);
     this->addChild(territory);
 
-    //プレイヤーの追加
-    auto player = Sprite::create("images/missile2.png");
-    player->setPosition(territory->getPosition());
-    this->addChild(player);
-    auto move = MoveBy::create(5.0f, Point(1200, 0));
-    player->runAction(move);
+
 
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
@@ -94,12 +89,12 @@ bool HelloWorld::init()
     // add the sprite as a child to this layer
     //this->addChild(sprite, 0);                      //画像を画面に貼り付け
 
-
+    //ボタンの生成
     Size winSize = Director::getInstance()->getWinSize();
-    LabelTTF *retryLabel = LabelTTF::create("Retry2", "Arial", 24.0);
-    retryLabel->setColor(Color3B::WHITE);                                     //③
+    LabelTTF *retryLabel = LabelTTF::create("Generate", "Arial", 24.0);
+    retryLabel->setColor(Color3B::WHITE);
     //retryLabel->enableShadow(Color4B::RED,Size(-2,-4),2);
-    MenuItemLabel *retryItem = MenuItemLabel::create(retryLabel, CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+    MenuItemLabel *retryItem = MenuItemLabel::create(retryLabel, CC_CALLBACK_1(HelloWorld::addPlayer, this));
     retryItem->setPosition(Point(0, 0));
     Menu *menu2 = Menu::create(retryItem, NULL);
     menu2->setPosition(Point(100, 100));
@@ -112,6 +107,20 @@ void HelloWorld::createInitObjects()
 {
 
 }
+
+void HelloWorld::addPlayer(Ref * sender)
+{
+	//プレイヤーの追加
+	    auto player = Sprite::create("images/missile2.png");
+	    player->setPosition(territory->getPosition());
+	    this->addChild(player);
+	    auto move = MoveBy::create(5.0f, Point(1200, 0));
+	    player->runAction(move);
+
+}
+
+
+
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {

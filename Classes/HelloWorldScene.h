@@ -2,6 +2,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+USING_NS_CC;
 
 class HelloWorld : public cocos2d::Layer
 {
@@ -15,6 +16,11 @@ public:
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
     
+    Sprite *territory;  //ä÷êîÇ≈égÇ§Ç©ÇÁí«â¡
+
+    void addPlayer(Ref * sender);
+
+
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };
