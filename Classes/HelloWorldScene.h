@@ -2,6 +2,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "TowerSprite.h"
 USING_NS_CC;
 
 class HelloWorld : public cocos2d::Layer
@@ -18,10 +19,23 @@ public:
 
     void createInitObjects();
     
-    Sprite *territory;  //関数で使うから追加
+    TowerSprite *territory;  //関数で使うから追加
+    TowerSprite *territory2;
+
+    Vector<Sprite*> playerVect;
+    Vector<Sprite*> playerVect2;
+    Vector<Sprite*> playerVect3;
+    Vector<Sprite*> enemyVect;
 
     void addPlayer(Ref * sender);
-
+    void addPlayer2(Ref * sender);
+    void addPlayer3(Ref * sender);
+    void addEnemy();
+    void update(float delta);
+    void collisionChecker();	//ユニット同士の衝突判定
+    void collisionChecker2();	//ユニットと領地の衝突判定
+    void calcDamage(Sprite *attacker, TowerSprite* target);
+    int frame;
 
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
