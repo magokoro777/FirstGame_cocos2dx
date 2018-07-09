@@ -1,0 +1,27 @@
+﻿2015/01/21 17:41:27 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "C:\Users\yuusuke\Documents\firstgame\proj.win32\FirstGame.vcxproj" (Build ターゲット)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\cocos\audio\include /IC:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external /IC:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\chipmunk\include\chipmunk /IC:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\extensions /I..\Classes /I.. /IC:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\cocos /IC:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\cocos\platform\win32 /IC:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\cocos\platform\desktop /IC:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\glfw3\include\win32 /I"C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\win32-specific\gles\include\OGLES" /ZI /nologo /W3 /WX- /MP /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USE_MATH_DEFINES /D GL_GLEXT_PROTOTYPES /D CC_ENABLE_CHIPMUNK_INTEGRATION=1 /D COCOS2D_DEBUG=1 /D _CRT_SECURE_NO_WARNINGS /D _SCL_SECURE_NO_WARNINGS /D _VARIADIC_MAX=10 /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug.win32\\" /Fd"Debug.win32\vc120.pdb" /Gd /TP /wd4267 /wd4251 /wd4244 /analyze- /errorReport:prompt ..\Classes\HelloWorldScene.cpp
+         HelloWorldScene.cpp
+     1>c:\users\yuusuke\documents\firstgame\cocos2d\cocos\base\ccutf8.h : warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+     1>c:\users\yuusuke\documents\firstgame\cocos2d\cocos\base\ccutils.h : warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+     1>c:\users\yuusuke\documents\firstgame\cocos2d\cocos\platform\ccsaxparser.h : warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+     1>c:\users\yuusuke\documents\firstgame\classes\helloworldscene.cpp(57): warning C4305: '引数' : 'double' から 'float' へ切り詰めます。
+     1>c:\users\yuusuke\documents\firstgame\classes\helloworldscene.cpp(66): warning C4305: '引数' : 'double' から 'float' へ切り詰めます。
+     1>c:\users\yuusuke\documents\firstgame\classes\helloworldscene.cpp(124): warning C4996: 'cocos2d::Node::setRotationX': が古い形式として宣言されました。
+                 c:\users\yuusuke\documents\firstgame\cocos2d\cocos\2d\ccnode.h(560) : 'cocos2d::Node::setRotationX' の宣言を確認してください。
+                 c:\users\yuusuke\documents\firstgame\cocos2d\cocos\2d\ccnode.h(560) : 'cocos2d::Node::setRotationX' の宣言を確認してください。
+       PreLinkEvent:
+         if not exist "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\" mkdir "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+         xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\websockets\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+         :VCEnd
+         0 個のファイルをコピーしました
+         ファイルが見つかりません - *.*
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: コマンド "if not exist "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\" mkdir "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\websockets\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: :VCEnd" はコード 4 で終了しました。
+     1>プロジェクト "C:\Users\yuusuke\Documents\firstgame\proj.win32\FirstGame.vcxproj" (Build ターゲット) のビルドが終了しました -- 失敗。
+
+ビルドに失敗しました。
+
+経過時間 00:00:12.73

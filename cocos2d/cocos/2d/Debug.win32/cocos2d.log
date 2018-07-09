@@ -1,0 +1,58 @@
+﻿2015/01/21 17:41:25 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\cocos2d.vcxproj" (Build ターゲット)。
+     1>PreLinkEvent:
+         if not exist "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\" mkdir "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+         xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\freetype2\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+         xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\glfw3\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+         xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\curl\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+         xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\jpeg\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+         xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\png\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+         xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\tiff\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+         xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\webp\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+         xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\websockets\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+         xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\win32-specific\zlib\prebuilt\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+         xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\win32-specific\icon\prebuilt\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+         xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\win32-specific\gles\prebuilt\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+         
+         :VCEnd
+         ファイルが見つかりません - *.*
+         0 個のファイルをコピーしました
+         ファイルが見つかりません - *.*
+         0 個のファイルをコピーしました
+         0 個のファイルをコピーしました
+         ファイルが見つかりません - *.*
+         ファイルが見つかりません - *.*
+         0 個のファイルをコピーしました
+         ファイルが見つかりません - *.*
+         0 個のファイルをコピーしました
+         ファイルが見つかりません - *.*
+         0 個のファイルをコピーしました
+         0 個のファイルをコピーしました
+         ファイルが見つかりません - *.*
+         0 個のファイルをコピーしました
+         ファイルが見つかりません - *.*
+         ファイルが見つかりません - *.*
+         0 個のファイルをコピーしました
+         ファイルが見つかりません - *.*
+         0 個のファイルをコピーしました
+         ファイルが見つかりません - *.*
+         0 個のファイルをコピーしました
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: コマンド "if not exist "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\" mkdir "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\freetype2\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\glfw3\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\curl\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\jpeg\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\png\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\tiff\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\webp\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\websockets\prebuilt\win32\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\win32-specific\zlib\prebuilt\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\win32-specific\icon\prebuilt\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: xcopy /Y /Q "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\..\..\external\win32-specific\gles\prebuilt\*.*" "C:\Users\yuusuke\Documents\firstgame\proj.win32\Debug.win32\"
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: 
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets(127,5): error MSB3073: :VCEnd" はコード 4 で終了しました。
+     1>プロジェクト "C:\Users\yuusuke\Documents\firstgame\cocos2d\cocos\2d\cocos2d.vcxproj" (Build ターゲット) のビルドが終了しました -- 失敗。
+
+ビルドに失敗しました。
+
+経過時間 00:00:01.78

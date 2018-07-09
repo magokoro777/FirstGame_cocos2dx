@@ -1,5 +1,16 @@
 #include "HelloWorldScene.h"
 #include "TowerSprite.h"
+#include "UnitSprite.h"
+#include "GameClearScene.h"
+#include "GameOverScene.h"
+#include "StageSelectScene.h"
+#include "GameMenuLayer.h"
+#include "Const.h"
+#include "HpBarSprite.h"
+
+#include <extensions/cocos-ext.h>
+
+USING_NS_CC_EXT;
 
 Scene* HelloWorld::createScene()
 {
@@ -16,58 +27,52 @@ Scene* HelloWorld::createScene()
     return scene;
 }
 
-// on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-    //////////////////////////////
     // 1. super init first
     if ( !Layer::init() )           //initはゲームを初期化するときに使う関数。インスタンス＝ゲーム画面。
     {
         return false;
     }
     
-    //aiueo kakikukeko
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    visibleSize = VISIBLE_SIZE;
+    origin = Director::getInstance()->getVisibleOrigin();
 
     createInitObjects();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
-
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
-    
-	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
-
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
-
-    /////////////////////////////
-    // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
-
     //ボタンの生成（画像）
      //画面サイズの取得
-     Size winSize = Director::getInstance()->getWinSize();
-     auto pBtnItem1 = MenuItemImage::create("images/btn1.png","btn1.png", CC_CALLBACK_1(HelloWorld::addPlayer, this));
-     auto pBtnItem2 = MenuItemImage::create("images/btn2.png","btn2.png", CC_CALLBACK_1(HelloWorld::addPlayer2, this));
-     auto pBtnItem3 = MenuItemImage::create("images/btn3.png","btn3.png", CC_CALLBACK_1(HelloWorld::addPlayer3, this));
-     pBtnItem1 -> setPosition(Point(0,100));
-     pBtnItem2 -> setPosition(Point(100,100));
-     pBtnItem3 -> setPosition(Point(200,100));
+     winSize = Director::getInstance()->getWinSize();
+     auto pBtnItem1 = MenuItemImage::create("images/btn1.png","images/btn1.png", CC_CALLBACK_1(HelloWorld::addPlayer, this));
+     auto pBtnItem2 = MenuItemImage::create("images/btn2.png","images/btn2.png", CC_CALLBACK_1(HelloWorld::addPlayer2, this));
+     auto pBtnItem3 = MenuItemImage::create("images/btn3.png","images/btn3.png", CC_CALLBACK_1(HelloWorld::addPlayer3, this));
+     pBtnItem1 -> setPosition(Point(-pBtnItem1->getContentSize().width*2,pBtnItem1->getContentSize().height));
+     pBtnItem2 -> setPosition(Point(0,pBtnItem2->getContentSize().height));
+     pBtnItem3 -> setPosition(Point(pBtnItem3->getContentSize().width*2,pBtnItem3->getContentSize().height));
+     pBtnItem1 -> setScale(2.0);
+     pBtnItem2 -> setScale(2.0);
+     pBtnItem3 -> setScale(2.0);
      Menu *pMenu = Menu::create(pBtnItem1,pBtnItem2,pBtnItem3, NULL);
      pMenu->setPosition(Point(winSize.width/2,0));
      this->addChild(pMenu);
+
+     //一時停止ボタン
+     auto pauseButton = MenuItemImage::create("images/pause.png","images/pause.png", CC_CALLBACK_1(HelloWorld::Pause, this));
+     pauseButton -> setPosition(Point(VISIBLE_SIZE.width-pauseButton->getContentSize().width/4,pauseButton->getContentSize().height/4));
+     pauseButton -> setScale(0.4);
+     pause = false;
+     auto pauseMenu = Menu::create(pauseButton, NULL);
+     pauseMenu->setPosition(Vec2::ZERO);
+     this->addChild(pauseMenu);
+
+     //メニューボタン
+     auto menuButton = MenuItemImage::create("images/menu.png","images/menu.png", CC_CALLBACK_1(HelloWorld::Menubtn, this));
+     menuButton -> setPosition(Point(VISIBLE_SIZE.width-menuButton->getContentSize().width/2,pauseButton->getContentSize().height/4));
+	 menuButton -> setScale(0.4);
+	 menu = false;
+	 auto menuMenu = Menu::create(menuButton, NULL);
+	 menuMenu->setPosition(Vec2::ZERO);
+	 this->addChild(menuMenu);
 
     //スケジュールアップデートをスタート
     this->scheduleUpdate();
@@ -80,61 +85,91 @@ bool HelloWorld::init()
 void HelloWorld::update(float delta)
  {
     log("update");
-    if(frame % 40 == 0){
-    	addEnemy();
+    srand((unsigned int)time(NULL)*frame);  //ランダムに敵を生成
+    int mix=rand()% 160 + 40;
+
+    if(territory2->isVisible() == true){
+    	if(frame % mix == 0){
+    		addEnemy();
+    	}
+    	collisionChecker();
+		collisionChecker2();
     }
-    collisionChecker();
-    collisionChecker2();
     frame++;
 }
 
-void HelloWorld::addEnemy()
-{
-	//エネミーの追加
-		    auto enemy = Sprite::create("images/missile1.png");
-		    enemy->setPosition(territory2->getPosition());
-		    this->addChild(enemy);
-
-		    enemyVect.pushBack(enemy);
-
-		    auto move = MoveTo::create(5.0f, territory->getPosition());
-		    enemy->runAction(move);
-}
 void HelloWorld::createInitObjects()
 {
+	auto listener = EventListenerTouchAllAtOnce::create();
+	    listener->onTouchesMoved = CC_CALLBACK_2(HelloWorld::onTouchedMoved, this);
+	    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
+
+	auto mainView = ScrollView::create(VISIBLE_SIZE);
+	 	 mainView->setDirection(ScrollView::Direction::HORIZONTAL);
+		 mainView->setBounceable(false);
+		 mainView->setPosition(Point::ZERO);
+		 this->addChild(mainView);
+
+
+
 	//ゲーム背景の追加
-	    auto bg = Sprite::create("images/bg.png");
-	         bg->setPosition(Point(640/2, 1136/2));
-	         bg->setScale(2.5);
-	         bg->setRotation(90);
-	         this->addChild(bg);
+	    bg = Sprite::create("images/bg.png");
+	    bg->setScale(2.5);
+
+	    mainView->setContainer(bg);
+	    mainView->setContentSize(Size(bg->getContentSize()));
 
 	//プレイヤー領地の追加
 	    territory = TowerSprite::create("images/player1_1.png");
-	    territory->setPosition(Point(640/4, 1136/3));
-	    territory->setScale(1.5);
+	    territory->setPosition(Point(territory->getContentSize().width, bg->getContentSize().height/4));
+	    territory->setScale(0.5);
 	    territory->setRotation(90);
-	    territory->setHp(100);
-	    this->addChild(territory);
+	    territory->setDefaultHp(100);
+	    bg->addChild(territory,50,50);
 
-	    log("HPは:%d",territory->getHp());
+		 auto hpSprite  = HpBarSprite::create();
+		 hpSprite->hpbar->setAnchorPoint(Point::ZERO);
+		 hpSprite->hpframe->setAnchorPoint(Point::ZERO);
+		 hpSprite->setPosition(Point(0, VISIBLE_SIZE.height*0.9));
+		 this->addChild(hpSprite,99999,99999);
+
+		 territory->setHpBar(hpSprite);
+
+	    //log("HPは:%d",territory->getHp());
 
 	 //エネミー領地の追加
 	    territory2 = TowerSprite::create("images/enemy1_1.png");
-	    territory2->setPosition(Point(1600, 1136/3));
-	    territory2->setScale(1.5);
-	    territory2->setRotation(-90);
-	    this->addChild(territory2);
+	    territory2->setPosition(Point(bg->getContentSize().width-territory2->getContentSize().width, bg->getContentSize().height/4));
+	    territory2->setScale(0.5);
+	    //territory2->setPosition(Point(territory->getContentSize().width + 100, bg->getContentSize().height/4));
+
+	    //territory2->setRotationX(-90);
+	    territory2->setDefaultHp(100);
+	    bg->addChild(territory2,50,50);
+
+		 auto hpSprite2  = HpBarSprite::create();
+		 hpSprite2->setPosition(Point(VISIBLE_SIZE.width, VISIBLE_SIZE.height*0.9));
+		 hpSprite2->hpbar->setAnchorPoint(Point(1, 0));
+		 hpSprite2->hpframe->setAnchorPoint(Point(1, 0));
+
+		 this->addChild(hpSprite2,99999,99999);
+		 territory2->setHpBar(hpSprite2);
+
 }
 
 void HelloWorld::addPlayer(Ref * sender)
 {
 	//プレイヤーの追加
-	    auto player = Sprite::create("images/missile2.png");
+	    player = UnitSprite::create("images/missile2.png");
 	    player->setPosition(territory->getPosition());
-	    this->addChild(player);
+	    player->setAttack(10);
+	    if(pause == false)
+	    bg->addChild(player);
 
 	    playerVect.pushBack(player);
+
+//	    auto HpSprite  = HpBarSprite::create();
+//	    	 HpSprite->setParentHp(this);
 
 	    auto move = MoveTo::create(5.0f, territory2->getPosition());
 	    /*auto callfunc = CallFunc::create([=](){
@@ -148,11 +183,13 @@ void HelloWorld::addPlayer(Ref * sender)
 void HelloWorld::addPlayer2(Ref * sender)
 {
 	//プレイヤーの追加
-	    auto player = Sprite::create("images/missile3.png");
-	    player->setPosition(territory->getPosition());
-	    this->addChild(player);
+	    player2 = UnitSprite::create("images/missile3.png");
+	    player2->setPosition(territory->getPosition());
+	    player2->setAttack(10);
+	    if(pause == false)
+	    bg->addChild(player2);
 
-	    playerVect2.pushBack(player);
+	    playerVect2.pushBack(player2);
 
 	    auto move = MoveTo::create(5.0f, territory2->getPosition());
 	    /*auto callfunc = CallFunc::create([=](){
@@ -160,17 +197,19 @@ void HelloWorld::addPlayer2(Ref * sender)
 	    	playerVect2.eraseObject(player);
 	    });
 	    auto seq = Sequence::create(move, callfunc, NULL);*/
-	    player->runAction(move);
+	    player2->runAction(move);
 }
 
 void HelloWorld::addPlayer3(Ref * sender)
 {
 	//プレイヤーの追加
-	    auto player = Sprite::create("images/missile4.png");
-	    player->setPosition(territory->getPosition());
-	    this->addChild(player);
+	    player3 = UnitSprite::create("images/missile4.png");
+	    player3->setPosition(territory->getPosition());
+	    player3->setAttack(10);
+	    if(pause == false)
+	    bg->addChild(player3);
 
-	    playerVect3.pushBack(player);
+	    playerVect3.pushBack(player3);
 
 	    auto move = MoveTo::create(5.0f, territory2->getPosition());
 	    /*auto callfunc = CallFunc::create([=](){
@@ -178,42 +217,56 @@ void HelloWorld::addPlayer3(Ref * sender)
 	    	playerVect3.eraseObject(player);
 	    });
 	    auto seq = Sequence::create(move, callfunc, NULL);*/
-	    player->runAction(move);
+	    player3->runAction(move);
+}
+
+void HelloWorld::addEnemy()
+{
+	//エネミーの追加
+		    enemy = UnitSprite::create("images/missile1.png");
+		    enemy->setPosition(territory2->getPosition());
+		    enemy->setAttack(10);
+		    bg->addChild(enemy);
+
+		    enemyVect.pushBack(enemy);
+
+		    auto move = MoveTo::create(5.0f, territory->getPosition());
+		    enemy->runAction(move);
 }
 
 void HelloWorld::collisionChecker()		//ユニット同士の衝突判定
 {
 	//プレイヤーの敵との衝突判定
-	for(Sprite * player : playerVect){
-		for(Sprite * enemy : enemyVect){
-			if(player->getBoundingBox().intersectsRect(enemy->getBoundingBox())){
+	for(UnitSprite * playerArray : playerVect){
+		for(UnitSprite * enemyArray : enemyVect){
+			if(playerArray->getBoundingBox().intersectsRect(enemyArray->getBoundingBox())){
 				//player->attackForTarget(enemy);		//別クラスの呼び出し方
-				enemy->removeFromParent();		//敵を画面から除去
-				enemyVect.eraseObject(enemy);	//敵を配列から除去
+				enemyArray->removeFromParent();		//敵を画面から除去
+				enemyVect.eraseObject(enemyArray);	//敵を配列から除去
 
 				break;
 			}
 		}
 	}
 	//プレイヤーの敵との衝突判定
-	for(Sprite * player2 : playerVect2){
-		for(Sprite * enemy : enemyVect){
-			if(player2->getBoundingBox().intersectsRect(enemy->getBoundingBox())){
+	for(UnitSprite * playerArray2 : playerVect2){
+		for(UnitSprite * enemyArray : enemyVect){
+			if(playerArray2->getBoundingBox().intersectsRect(enemyArray->getBoundingBox())){
 				//player->attackForTarget(enemy);		//別クラスの呼び出し方
-				enemy->removeFromParent();		//敵を画面から除去
-				enemyVect.eraseObject(enemy);	//敵を配列から除去
+				enemyArray->removeFromParent();		//敵を画面から除去
+				enemyVect.eraseObject(enemyArray);	//敵を配列から除去
 
 				break;
 			}
 		}
 	}
 	//プレイヤーの敵との衝突判定
-	for(Sprite * player3 : playerVect3){
-		for(Sprite * enemy : enemyVect){
-			if(player3->getBoundingBox().intersectsRect(enemy->getBoundingBox())){
+	for(UnitSprite * playerArray3 : playerVect3){
+		for(UnitSprite * enemyArray : enemyVect){
+			if(playerArray3->getBoundingBox().intersectsRect(enemyArray->getBoundingBox())){
 				//player->attackForTarget(enemy);		//別クラスの呼び出し方
-				enemy->removeFromParent();		//敵を画面から除去
-				enemyVect.eraseObject(enemy);	//敵を配列から除去
+				enemyArray->removeFromParent();		//敵を画面から除去
+				enemyVect.eraseObject(enemyArray);	//敵を配列から除去
 
 				break;
 			}
@@ -224,69 +277,123 @@ void HelloWorld::collisionChecker()		//ユニット同士の衝突判定
 void HelloWorld::collisionChecker2()		//ユニットと領地の衝突判定
 {
 	//プレイヤーユニットと敵領地の衝突判定
-	for(Sprite * player : playerVect){
-		if(player->getBoundingBox().intersectsRect(territory2->getBoundingBox())){
-			player->removeFromParent();		//プレイヤーを画面から除去
-			playerVect.eraseObject(player);	//プレイヤーを配列から除去
-
-			calcDamage(player, territory2);
-
-			break;
-		}
-	}
-	//プレイヤーユニットと敵領地の衝突判定
-	for(Sprite * player2 : playerVect2){
-		if(player2->getBoundingBox().intersectsRect(territory2->getBoundingBox())){
-			player2->removeFromParent();		//プレイヤーを画面から除去
-			playerVect2.eraseObject(player2);	//プレイヤーを配列から除去
+	for(UnitSprite * playerArray : playerVect){
+		if(playerArray->getBoundingBox().intersectsRect(territory2->getBoundingBox())){
+			calcDamage(playerArray, territory2);
+			playerArray->removeFromParent();		//プレイヤーを画面から除去
+			playerVect.eraseObject(playerArray);	//プレイヤーを配列から除去
 
 			break;
 		}
 	}
 	//プレイヤーユニットと敵領地の衝突判定
-	for(Sprite * player3 : playerVect3){
-		if(player3->getBoundingBox().intersectsRect(territory2->getBoundingBox())){
-			player3->removeFromParent();		//プレイヤーを画面から除去
-			playerVect3.eraseObject(player3);	//プレイヤーを配列から除去
+	for(UnitSprite * playerArray2 : playerVect2){
+		if(playerArray2->getBoundingBox().intersectsRect(territory2->getBoundingBox())){
+			calcDamage(playerArray2, territory2);
+			playerArray2->removeFromParent();		//プレイヤーを画面から除去
+			playerVect2.eraseObject(playerArray2);	//プレイヤーを配列から除去
+
+			break;
+		}
+	}
+	//プレイヤーユニットと敵領地の衝突判定
+	for(UnitSprite * playerArray3 : playerVect3){
+		if(playerArray3->getBoundingBox().intersectsRect(territory2->getBoundingBox())){
+			calcDamage(playerArray3, territory2);
+			playerArray3->removeFromParent();		//プレイヤーを画面から除去
+			playerVect3.eraseObject(playerArray3);	//プレイヤーを配列から除去
 
 			break;
 		}
 	}
 	//敵ユニットとプレイヤー領地の衝突判定
-	for(Sprite * enemy : enemyVect){
-		if(enemy->getBoundingBox().intersectsRect(territory->getBoundingBox())){
-			enemy->removeFromParent();		//敵を画面から除去
-			enemyVect.eraseObject(enemy);	//敵を配列から除去
+	for(UnitSprite * enemyArray : enemyVect){
+		if(enemyArray->getBoundingBox().intersectsRect(territory->getBoundingBox())){
+			calcDamage2(enemyArray, territory);
+			enemyArray->removeFromParent();		//敵を画面から除去
+			enemyVect.eraseObject(enemyArray);	//敵を配列から除去
 
 			break;
 		}
 	}
 }
 
-void HelloWorld::calcDamage(Sprite *attacker, TowerSprite* target)
+void HelloWorld::calcDamage(UnitSprite *attacker, TowerSprite* target)	//プレイヤーユニットと敵領地
 {
 			//サウンド再生
-
 			//パーティクルを出す
-
-
-			target->setHp(target->getHp() - 10);
-			//target->setHp(target->getHp() - attacker->getAttackValue());
-			if(target->getHp() == 0){
-				target->removeFromParent();
+			target->setHp((float)target->getHp() - (float)attacker->getAttack());
+			if(target->getHp() <= 0){
+				auto delay = DelayTime::create(3.0);
+				auto callfunc = CallFunc::create([this](){
+				//画面移動
+					Scene *pScene = GameClear::createScene();
+					TransitionFade* transition = TransitionFade::create(1.0f, pScene);
+					Director::getInstance()->replaceScene(transition);
+				});
+				auto seq = Sequence::create(delay, callfunc, NULL);
+				this->runAction(seq);
 			}
 }
 
-void HelloWorld::menuCloseCallback(Ref* pSender)
+void HelloWorld::calcDamage2(UnitSprite *attacker, TowerSprite* target)	//敵ユニットとプレイヤー領地
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.","Alert");
-    return;
-#endif
+			target->setHp((float)target->getHp() - (float)attacker->getAttack());
+			if(target->getHp() <= 0){
+				auto delay = DelayTime::create(3.0);
+				auto callfunc = CallFunc::create([this](){
+				//画面移動
+					Scene *pScene = GameOver::createScene();
+					TransitionFade* transition = TransitionFade::create(1.0f, pScene);
+					Director::getInstance()->replaceScene(transition);
+				});
+			    auto seq = Sequence::create(delay, callfunc, NULL);
+			    this->runAction(seq);
+			}
+}
 
-    Director::getInstance()->end();
+void HelloWorld::Pause(Ref* pSender)
+{
+	pause = !pause;
+	if(pause == true)
+		Director::getInstance()->pause();
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
+	else if(pause == false)
+		Director::getInstance()->resume();
+}
+
+void HelloWorld::Menubtn(Ref* pSender)
+{
+	if(pause == false){
+		menu = !menu;
+		if(menu == true){
+			Director::getInstance()->pause();
+			auto menuLayer  = GameMenuLayer::create();
+			menuLayer->setParentScene(this);
+			this->addChild(menuLayer,99999,99999);
+		}
+
+		else if(menu == false){
+			Director::getInstance()->resume();
+		}
+	}
+
+}
+
+void HelloWorld::onTouchedMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event *pEvent)
+{
+//	log("onTouchedMoved");
+//	auto diff = touches[0]->getDelta();
+//	auto currentPosX = bg->getPositionX();
+//	auto dir = (bg->getContentSize().width - VISIBLE_SIZE.width)/2;
+//
+//	if(currentPosX > VISIBLE_SIZE.width){
+//		bg->setPosition(Point(currentPosX, VISIBLE_SIZE.height/2));
+//	}
+//	else if(currentPosX < 0){
+//		bg->setPosition(Point(currentPosX, VISIBLE_SIZE.height/2));
+//	}
+//	else {
+//		bg->setPosition(Point(currentPosX + diff.x, VISIBLE_SIZE.height/2));
+//	}
 }

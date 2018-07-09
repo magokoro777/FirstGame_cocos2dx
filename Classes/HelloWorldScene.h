@@ -3,6 +3,10 @@
 
 #include "cocos2d.h"
 #include "TowerSprite.h"
+#include "UnitSprite.h"
+#include "GameClearScene.h"
+#include "GameOverScene.h"
+#include "StageSelectScene.h"
 USING_NS_CC;
 
 class HelloWorld : public cocos2d::Layer
@@ -15,17 +19,27 @@ public:
     virtual bool init();  
     
     // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
+    //void menuCloseCallback(cocos2d::Ref* pSender);
+
+    Size visibleSize;
+    Size winSize;
+    Sprite *bg;
+    Vec2 origin;
 
     void createInitObjects();
     
     TowerSprite *territory;  //関数で使うから追加
     TowerSprite *territory2;
 
-    Vector<Sprite*> playerVect;
-    Vector<Sprite*> playerVect2;
-    Vector<Sprite*> playerVect3;
-    Vector<Sprite*> enemyVect;
+    UnitSprite *player;
+    UnitSprite *player2;
+    UnitSprite *player3;
+    UnitSprite *enemy;
+
+    Vector<UnitSprite*> playerVect;
+    Vector<UnitSprite*> playerVect2;
+    Vector<UnitSprite*> playerVect3;
+    Vector<UnitSprite*> enemyVect;
 
     void addPlayer(Ref * sender);
     void addPlayer2(Ref * sender);
@@ -34,8 +48,16 @@ public:
     void update(float delta);
     void collisionChecker();	//ユニット同士の衝突判定
     void collisionChecker2();	//ユニットと領地の衝突判定
-    void calcDamage(Sprite *attacker, TowerSprite* target);
+    void calcDamage(UnitSprite *attacker, TowerSprite* target);
+    void calcDamage2(UnitSprite *attacker, TowerSprite* target);
+
+    void Pause(Ref* pSender);
+    bool pause;
+    void Menubtn(Ref* pSender);
+    bool menu;
     int frame;
+
+    void onTouchedMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event *pEvent);
 
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
